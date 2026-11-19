@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Checkbox, CheckboxGroup } from "@omniroute/ui-kit/checkbox";
-import { Card, Button, Input, Toggle, Modal, Badge } from "@/shared/components";
+import { ScopeChip } from "@omniroute/ui-kit/scope-chip";
+import { Card, Button, Input, Toggle, Modal } from "@/shared/components";
 import Icon from "@/shared/components/Icon";
 import { AI_PROVIDERS } from "@/shared/constants/providers";
 import ProviderIcon from "@/shared/components/ProviderIcon";
@@ -321,14 +322,14 @@ export default function SecurityTab() {
       {/* API Endpoint Protection */}
       <Card title={t("apiEndpointProtection")} icon="api">
         <div className="flex flex-col gap-4">
-          <div className="rounded-lg border border-border bg-bg-subtle p-3 text-sm text-text-muted">
+          <Card.Section className="text-sm text-text-muted">
             <p className="font-medium text-text-main">{t("authModelHeading")}</p>
             <ul className="list-disc pl-5 mt-1 space-y-1">
               <li>{t("authModelClient")}</li>
               <li>{t("authModelManagement")}</li>
               <li>{t("authModelPublic")}</li>
             </ul>
-          </div>
+          </Card.Section>
 
           <div className="flex items-center justify-between">
             <div>
@@ -448,18 +449,14 @@ export default function SecurityTab() {
           {customBannedSignals.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {customBannedSignals.map((keyword, index) => (
-                <Badge key={index} variant="error" className="gap-1 pr-1">
+                <ScopeChip
+                  key={index}
+                  tone="danger"
+                  onRemove={() => removeBannedKeyword(index)}
+                  removeLabel={`${getSettingsLabel("remove", "Remove")} ${keyword}`}
+                >
                   {keyword}
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    className="size-5"
-                    onClick={() => removeBannedKeyword(index)}
-                    aria-label={`${getSettingsLabel("remove", "Remove")} ${keyword}`}
-                  >
-                    <Icon name="close" size={12} />
-                  </Button>
-                </Badge>
+                </ScopeChip>
               ))}
             </div>
           ) : (
